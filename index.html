@@ -1,615 +1,530 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chih Yuan Chang</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@300&display=swap" rel="stylesheet">
-    <style>
-        /* Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chih Yuan Chang</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@300&display=swap" rel="stylesheet">
+  <style>
+    /* Reset */
+    * { margin:0; padding:0; box-sizing:border-box; }
 
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f5f5f5;
-            color: #333;
-        }
+    body { font-family:'Roboto', sans-serif; background-color:#f5f5f5; color:#333; }
 
-        /* Container */
-        .container {
-            display: flex;
-            height: 100vh; /* Ensures full height of the screen */
-            overflow: hidden;
-        }
+    /* Layout */
+    .container { display:flex; height:100vh; overflow:hidden; }
 
-        /* Sidebar styling */
-        .sidebar {
-            background-color: #1f2937;
-            color: white;
-            width: 300px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center; /* Centers the content vertically */
-            padding: 20px;
-        }
+    /* Sidebar */
+    .sidebar {
+      background-color:#1f2937; color:#fff; width:300px; display:flex;
+      flex-direction:column; align-items:center; justify-content:center; padding:20px;
+      position:sticky; top:0;
+    }
+    .sidebar img { border-radius:50%; width:150px; height:150px; object-fit:cover; margin-bottom:20px; }
+    .sidebar h1 { font-family:'Montserrat', sans-serif; font-size:24px; margin-bottom:10px; }
+    .sidebar nav { display:flex; flex-direction:column; align-items:center; margin-top:25px; }
+    .sidebar nav a {
+      color:#e5e7eb; text-decoration:none; font-size:18px; margin:16px 0;
+      font-family:'Montserrat', sans-serif; transition: color .3s, background .2s, transform .1s;
+      padding:6px 10px; border-radius:10px;
+    }
+    .sidebar nav a:hover { color:#fff; background:#334155; transform: translateY(-1px); }
+    .sidebar nav a[aria-current="page"] { background:#8bb9e9; color:#111827; font-weight:700; }
 
-        .sidebar img {
-            border-radius: 50%;
-            width: 150px;
-            height: 150px;
-            object-fit: cover;
-            margin-bottom: 20px;
-        }
+    /* Main content (inner scroll) */
+    .content {
+      flex:1; padding:60px; background-color:#fff; overflow-y:auto;
+      scroll-behavior:smooth; scroll-padding-top:8px;
+      background-image: linear-gradient(#fff,#fff),
+        radial-gradient(ellipse at top left, #f6f7fb, transparent 40%),
+        radial-gradient(ellipse at bottom right, #f1f5ff, transparent 40%);
+      background-origin: border-box;
+    }
 
-        .sidebar h1 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
+    h2 { font-size:26px; color:#1f2937; font-family:'Montserrat', sans-serif; margin-bottom:20px; border-bottom:2px solid #e5e7eb; padding-bottom:10px; }
+    p  { font-size:18px; line-height:1.7; color:#5c5e61; margin-bottom:20px; }
 
-        .sidebar nav {
-            display: flex;
-            flex-direction: column; /* Stack items vertically */
-            align-items: center;
-            margin-top: 25px;
-        }
+    .contact-info a { color:#1f2937; text-decoration:none; font-size:18px; font-weight:bold; }
+    .social-links a { font-size:24px; color:#1f2937; margin-right:20px; transition: color .3s; }
+    .social-links a:hover { color:#f97316; }
 
-        .sidebar nav a {
-            color: #e5e7eb;
-            text-decoration: none;
-            font-size: 18px;
-            margin: 16px 0; /* Add vertical spacing between items */
-            font-family: 'Montserrat', sans-serif;
-            transition: color 0.3s;
-        }
+    /* About */
+    #about { padding:60px; font-family:"Gill Sans", sans-serif; }
+    #about h1 { font-family:'Montserrat', sans-serif; font-size:36px; margin-bottom:18px; color:rgb(28,28,69); }
+    #about h5 { font-family:'Montserrat', sans-serif; font-size:20px; letter-spacing:.8px; color:#333; font-weight:400; margin:0; }
 
-        .sidebar nav a:hover {
-            color: #f97316;
-        }
+    .separator { border-bottom:2px solid #ddd; margin-top:20px; width:100%; }
 
-        /* Main content */
-        .content {
-            flex: 1;
-            padding: 60px;
-            background-color: #fff;
-            overflow-y: auto;
-        }
+    #about p { font-size:18.8px; line-height:1.7; letter-spacing:.75px; margin-bottom:20px; }
 
-        h2 {
-            font-size: 26px;
-            color: #1f2937;
-            font-family: 'Montserrat', sans-serif;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #e5e7eb;
-            padding-bottom: 10px;
-        }
+    a { font-weight:600; color:#473f3f; text-decoration:none; }
+    a:hover { text-decoration:underline; }
 
-        p {
-            font-size: 18px;
-            line-height: 1.7;
-            color: #5c5e61;
-            margin-bottom: 20px;
-        }
+    /* Logos */
+    .lab-logo-container { float:left; margin-right:20px; width:100px; }
+    .lab-logo { width:80px; }
 
-        .contact-info a {
-            color: #1f2937;
-            text-decoration: none;
-            font-size: 18px;
-            font-weight: bold;
-        }
+    /* Blocks (美化＋保留 hover 展開) */
+    .research-block, .project-block {
+      background:#ffffff; padding:26px; margin-bottom:22px; border-radius:14px;
+      border:1px solid #e5e7eb; box-shadow:0 6px 24px rgba(2,6,23,.06);
+      overflow:hidden; position:relative;
+      transition: max-height .9s ease, padding .2s ease, box-shadow .2s ease, transform .2s ease;
+      max-height:300px; /* 預設收起高度（保留 hover 效果） */
+    }
+    .research-block:hover, .project-block:hover {
+      max-height:2200px; padding:26px;
+      box-shadow:0 14px 36px rgba(2,6,23,.10); transform: translateY(-2px);
+    }
 
-        .social-links a {
-            font-size: 24px;
-            color: #1f2937;
-            margin-right: 20px;
-            transition: color 0.3s;
-        }
+    .research-block h2, .project-block h2 {
+      font-family:'Montserrat', sans-serif; font-size:25px; font-weight:700; color:#0f172a; margin-bottom:12px; border:none;
+    }
+    .research-block h3, .project-block h3 { font-family:'Montserrat', sans-serif; font-size:20px; font-weight:600; color:#111827; margin:16px 0 10px; }
 
-        .social-links a:hover {
-            color: #f97316;
-        }
+    .research-block p, .project-block p { margin-bottom:12px; color:#475569; }
 
-        /* About section styling */
-        #about {
-            padding: 60px;
-            font-family: "Gill Sans", sans-serif;
-            
-        }
+    /* 詳細內容：hover 顯示 */
+    .more-text { display:block; opacity:0; transition: opacity .3s ease; }
+    .research-block:hover .more-text, .project-block:hover .more-text { opacity:1; }
 
-        #about h1 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 36px;
-            margin-bottom: 18px;
-            color:rgb(28, 28, 69);
-        }
-
-
-        .ntu-logo {
-            margin-right: 15px;  /* Space between logo and text */
-            height: 60px;  /* Control logo size */
-        }
-
-        #about h5 {
-            font-family: 'italic', serif; /* Use a modern sans-serif font */
-            font-size: 20px;
-            letter-spacing: 0.8px;
-            color: #333; /* Modern dark gray color */
-            font-weight: 400; /* Light font-weight for sleek look */
-            margin: 0;
-        }
-
-        .separator {
-            border-bottom: 2px solid #ddd;  /* Gray line to separate the university section */
-            margin-top: 20px;
-            width: 100%;  /* Full width */
-        }
-
-        #about p {
-            font-size: 18.8px;
-            line-height: 1.7;
-            letter-spacing: 0.75px;
-            margin-bottom: 20px;
-        }
-
-        #about ul {
-            list-style-type: disc;
-            padding-left: 20px;
-        }
-
-        #about ul li {
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-
-        .social-links img {
-            width: 30px;
-            margin-right: 15px;
-        }
-
-        .social-links a {
-            display: inline-block;
-        }
-
-        a {
-            font-weight: 3000;
-            color: #473f3f; /* Dark gray */
-            text-decoration: none; /* Remove underline */
-        }
-
-        a:hover {
-            text-decoration: underline; /* Underline on hover */
-        }
-
-
-        /* Responsive for smaller devices */
-        @media screen and (max-width: 768px) {
-            .container {
-                flex-direction: column;
-            }
-            .sidebar {
-                width: 100%;
-                height: auto;
-                flex-direction: row;
-                justify-content: space-between;
-                padding: 20px;
-            }
-            .sidebar nav a {
-                margin: 0 15px;
-            }
-            .content {
-                padding: 30px;
-            }
-        }
-        /* Container for the lab logo outside the research block */
-        .lab-logo-container {
-            float: left; /* Float logo to the left */
-            margin-right: 20px; /* Space between logo and research block */
-            width: 100px; /* Adjust logo container size */
-        }
-
-        .lab-logo {
-            width: 80px; /* Adjust logo size */
-        }
-
-
-        .research-block {
-            background-color: #f0f4f8; /* Light background color for the blocks */
-            padding: 30px;
-            margin-bottom: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
-            overflow: hidden;
-            max-height: 270px; /* Initial block height */
-            transition: max-height 0.9s ease, padding 0.9s ease; /* Smooth transition for height and padding */
-            position: relative;
-        }
-        
-        /* Style for lab names to make them larger and visually distinct */
-        .research-block h2 {
-            font-family: 'Montserrat', sans-serif; /* Change font to something distinct but modern */
-            font-size: 25px; /* Make the lab name bigger */
-            font-weight: 700; /* Bold font for emphasis */
-            color: #333; /* Darker color for better contrast */
-            margin-bottom: 15px; /* Add space below the lab name */
-        }
-
-        /* Style for lab names to make them larger and visually distinct */
-        .research-block h3 {
-            font-family: 'Montserrat', sans-serif; /* Change font to something distinct but modern */
-            font-size: 20px; /* Make the lab name bigger */
-            font-weight: 500; /* Bold font for emphasis */
-            color: #333; /* Darker color for better contrast */
-            margin-bottom: 15px; /* Add space below the lab name */
-        }
-
-        .research-block:hover {
-            max-height: 600px; /* Expand height on hover */
-            padding: 20px; /* Optional: Increase padding to add space */
-        }
-
-        .research-block p {
-            margin-bottom: 10px;
-        }
-
-        .more-text {
-            display: inline; /* Keep the hidden text inline */
-            opacity: 0; /* Initially hide text */
-            transition: opacity 0.3s ease; /* Smooth transition for text appearance */
-        }
-
-        .research-block:hover .more-text {
-            opacity: 1; /* Show text when hovering over the block */
-        }
-        
-        .category h2 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 24px;
-            font-weight: 700;
-            color: #333;
-            cursor: pointer;
-            margin-bottom: 10px;
-        }
-
-        /* Project block styling */
-        .project-block {
-            background-color: #f0f4f8; /* Light background color for the blocks */
-            padding: 30px;
-            margin-bottom: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
-            overflow: hidden;
-            max-height: 260px; /* Initial block height */
-            transition: max-height 0.9s ease, padding 0.9s ease; /* Smooth transition for height and padding */
-            position: relative;
-        }
-        
-        /* Style for lab names to make them larger and visually distinct */
-        .project-block h2 {
-            font-family: 'Montserrat', sans-serif; /* Change font to something distinct but modern */
-            font-size: 25px; /* Make the lab name bigger */
-            font-weight: 800; /* Bold font for emphasis */
-            color: #333; /* Darker color for better contrast */
-            margin-bottom: 15px; /* Add space below the lab name */
-        }
-    
-
-        .project-block h3 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 20px;
-            margin: 0;
-        }
-
-        .skills {
-            font-family: 'Gill Sans', sans-serif; /* Change font to something distinct but modern */
-            font-size: 20px; /* Make the lab name bigger */
-            font-weight: 400; /* Bold font for emphasis */
-            color: #333; /* Darker color for better contrast */
-            margin-bottom: 15px; /* Add space below the lab name */
-            letter-spacing: 0.8px;
-        }
-
-        .project-block:hover {
-            max-height: 5000px; /* Expand height on hover */
-            padding: 20px; /* Optional: Increase padding to add space */
-        }
-
-        .project-block p {
-            margin-bottom: 10px;
-        }
-
-        .project-block:hover .more-text {
-            opacity: 1; /* Show text when hovering over the block */
-        }
-
-        .project-details {
-            font-family: 'Roboto', sans-serif;
-            font-size: 16px;
-            color: #555;
-            margin-top: 5px;
-            display: none;
-        }
-
-        .poster-img {
-            max-width: 60%; /* Make the image responsive */
+    /* 清單可讀性 */
+    .project-list{ list-style:disc; padding-left:22px; margin:8px 0 18px; }
+    .project-list li{ margin:6px 0; line-height:1.6; }
+    .project-list code{
+      background:#f8fafc; border:1px solid #e5e7eb; padding:2px 6px; border-radius:6px;
+      font-size:.85em; font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+     .poster-img {
+            max-width: 80%; /* Make the image responsive */
             height: auto; /* Maintain aspect ratio */
             display: block;
             margin: 0 auto; /* Center the image */
             border-radius: 5px; /* Add slight border radius for aesthetics */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add shadow around the image */
+            box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1); /* Add shadow around the image */
         }
+    /* 互相連結的標題樣式 */
+    .xlink{
+      color:#0f172a; text-decoration:none; border-bottom:2px solid transparent; transition: color .2s, border-color .2s;
+    }
+    .xlink:hover{ color:#0ea5e9; border-bottom-color:#0ea5e9; }
 
-
-        /* Hidden project list initially */
-        .project-list {
-            margin-left: 20px;
-        }
-
-
-    </style>
+    /* Responsive */
+    @media (max-width:768px){
+      .container { flex-direction:column; height:auto; overflow:visible; }
+      .sidebar {
+        width:100%; height:auto; flex-direction:row; justify-content:space-between; padding:20px;
+        position:sticky; top:0; z-index:10;
+      }
+      .sidebar nav { flex-direction:row; flex-wrap:wrap; }
+      .sidebar nav a { margin:0 15px; }
+      .content { padding:30px; overflow:visible; }
+    }
+    /* Skill badges */
+    .skill-badges{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin:10px 0 4px;
+    }
+    .badge{
+    display:inline-block;
+    padding:6px 10px;
+    border-radius:999px;
+    border:1px solid #e5e7eb;
+    background:#f8fafc;
+    font-size:13px;
+    color:#1f2937;
+    box-shadow:0 1px 2px rgba(0,0,0,.04);
+    transition:transform .12s ease, box-shadow .12s ease, background .12s ease;
+    }
+    .badge:hover{
+    transform:translateY(-1px);
+    box-shadow:0 4px 10px rgba(2,6,23,.08);
+    background:#eef2ff;
+    }
+    /* 小標題（可選） */
+    .skills-label{
+    font-family:'Montserrat', sans-serif;
+    font-weight:700;
+    font-size:14px;
+    color:#0f172a;
+    margin:6px 0 2px;
+    }
+  </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <img src="mypic.webp" alt="Chih Yuan Chang">
-        <h1>Edward Chang</h1>
-        <nav>
-            <a href="#about">ABOUT</a>
-            <a href="#research">RESEARCH</a>
-            <a href="#projects">PROJECTS</a>
-            <a href="#internship">INTERNSHIP</a>
-            <a href="#extracurricular">EXTRACURRICULAR</a>
-        </nav>
-    </div>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <img src="mypic.webp" alt="Chih Yuan Chang">
+    <h1>Edward Chang</h1>
+    <nav>
+      <a href="#about">ABOUT</a>
+      <a href="#research">RESEARCH</a>
+      <a href="#projects">PROJECTS</a>
+      <a href="#internship">INTERNSHIP</a>
+      <a href="#extracurricular">EXTRACURRICULAR</a>
+    </nav>
+  </div>
 
-    <!-- Main content -->
-    <div class="content">
-        <section id="about">
-            <h1>Chih-Yuan Chang</h1>
-            
-            <h5><i>Bachelor of Science - Psychology & Bioenvironmental Systems Engineering, National Taiwan University</i></h5>
-            
-            <div class="separator"></div>
-            <!-- Add separator for the bottom gray line -->
+  <!-- Main content -->
+  <div class="content">
+    <!-- About -->
+    <section id="about">
+      <h1>C.Y. Edward Chang</h1>
+      <h5><i>Master of Science in Data Science, Columbia University</i></h5>
 
-            <p style="margin-top: 30px;">
-                
-                I am currently pursuing a double major in <i>Psychology</i> and <i>Bioenvironmental Systems Engineering</i> at National Taiwan University, with an expected graduation in January 2025. My academic performance reflects a strong commitment to excellence, with a cumulative GPA of 3.86/4.00. Driven by my passion for 
-                <u>Data Science and Artificial Intelligence</u>, I have independently completed numerous relevant courses, including machine learning, artificial neural network, and Natural Language Processing, reflecting my drive to explore diverse and impactful areas within these fields
-                (see <a href="Resume.pdf" target="_blank"> <i>my resume</i></a> for details). 
-                
+      <div class="separator"></div>
 
-                <br><br>What excites me most is taking data science out of the textbook and into the real world. Whether it’s decoding human connections in <u>Computational Neuro&Social Science</u> or untangling environmental puzzles in <u>Environmental Engineering</u>, I’ve loved the challenge of transforming raw data into meaningful insights. These interdisciplinary adventures have led to <u>two papers</u> currently under preparation for submission to academic journals
-                (see <a href="#research"><i>Research</i></a> section).
-            </p>
-    
-            <div class="social-links" style="margin-top: 40px;">
-                <a href="https://github.com/EdChang716" target="_blank">
-                    <img src="Git-icon.png" alt="GitHub" style="width: 80px; height: auto;">
-                </a>
-                <p><br><br><br><br><br></p>
-            </div>
-            
+      <p style="margin-top: 30px;">
+        The most useful lessons I’ve learned didn’t come from perfect models—they came from the ones that broke at 3 a.m.
+        Chasing down edge cases and refining problem-solving skills eventually brought me to New York, where I’m pursuing an
+        <i>M.S. in Data Science at Columbia University</i> (expected December 2026).
+      </p>
+      <p>
+        My undergraduate training (GPA 3.86/4.00) built the foundation I rely on, courses in
+        <i>machine learning</i>, <i>artificial neural networks</i>, and <i>natural language processing</i> sharpened the tools,
+        while hands-on projects taught me when to reach for which one
+        (see <a href="Resume.pdf" target="_blank"><i>my CV</i></a> for details).
+      </p>
+      <p>
+        What excites me most is taking data science out of the textbook and into the real world—from social and behavioral data
+        to environmental systems—turning raw data into decisions that matter. These interdisciplinary adventures have led to <u>one paper</u> in preparation, several conference presentations, and a College Student Research Scholarship (see the <a href="#research"><i>Research</i></a> section).
+      </p>
 
-        </section>
-        <section id="about">
-            <h1 id="research">Research Experience</h1>
-            <div class="separator"></div>
-            <p>
-                <br>Data tells stories, and my passion lies in uncovering them through <u>Data Science, Artificial Intelligence, and Natural Language Processing (NLP)</u>. Whether it’s decoding the nuances of human interactions through Text Mining or addressing environmental challenges with predictive analytics, I thrive on using data-driven approaches to transform raw numbers into meaningful insights. By leveraging advanced machine learning techniques and statistical models, I aim to uncover hidden patterns and deliver impactful solutions across diverse domains. These interests have driven my academic journey and guided my contributions to interdisciplinary research. 
-                <br>During my undergraduate journey, I had the privilege of contributing to two dynamic research labs, each offering unique opportunities to deepen my expertise and tackle real-world problems.</p>
+      <div class="social-links" style="margin-top:40px;">
+        <a href="https://github.com/EdChang716" target="_blank">
+          <img src="Git-icon.png" alt="GitHub" style="width:80px; height:auto;">
+        </a>
+        <p><br><br><br><br><br></p>
+      </div>
+    </section>
 
-            <p><br></p>
-            <div class="lab-logo-container">
-                <p><br></p>
-                <a href="https://www.chenlaboratory.com/" target="_blank">
-                    <img src="CHENLAB_logo.png" alt="Lab Logo" class="lab-logo">
-                </a>
-            </div>
+    <!-- Research -->
+    <section id="research">
+      <h1>Research Experience</h1>
+      <div class="separator"></div>
 
-            <!-- First Research Lab with colored block -->
-            <div class="research-block" id = "lab1">
-                    <h2><strong>Computational Human-sociocultural Experimental Neuroscience Lab, NTU</strong></h2>
-                    <p><i>Undergraduate Research Assistant, Department of Psychology | Supervisor: Prof. Pin-Hao Chen &nbsp; Jan. 2023 - Present</i></p>
-                <!-- Short content for the first lab -->
-                <p>
-                    In CHEN Lab, I utilized advanced <strong>statistics methods, Natural Language Processing (NLP), and machine learning techniques</strong> to analyze multi-modal data, combining neural, behavioral, and linguistic insights to decode the complexities underlying social interactions. <br></p>
-                    <span class="more-text"> <!-- Hidden content -->
-                        <p>
-                            My work involved analyzing <u>conversational data using NLP, LLM</u>
-                        
-                            and processing posture data through ML models. 
-                            
-                            Moreover, I applied <u>statistical methods such as ANOVA, linear regression, and Representational Similarity Analysis</u> to analyze different datasets.&nbsp; Aiming to uncover the mechanisms behind social interactions, providing deeper insights into the <u>dynamics of interpersonal relationships.</u>
-                            
-                            <br>
-                            <h2>Highlighted Research:</h2>
-                            <h3><strong>Unpacking the Anna Karenina Principle: Mental Representations of Friendships and Their Impact on Well-Being</strong></h3>
-                            
-                        </p>
-                    </span>
-                    
-            </div>
+      <p><br>
+        My research focuses on <u>Machine Learning (ML)</u>, <u>Deep Learning (DL)</u>, <u>Natural Language Processing (NLP)</u>, and hands-on work with <u>Large Language Models (LLMs)</u>. I build end-to-end systems—from data cleaning and feature engineering to training, evaluation, and deployment—and have practical experience with prompt engineering &amp; evaluation, <b>semantic vectorization</b>, parameter-efficient fine-tuning, and systematic error analysis. I also bring a strong background in statistical analysis (ANOVA, regression, similarity analysis, time-series modeling) and clear, decision-oriented data visualization.
+        <br><br>
+        I developed these skills during my undergraduate years through two research labs, each offering unique opportunities to deepen my expertise and tackle real-world problems.
+      </p>
 
-            <div class="lab-logo-container">
+      <p><br></p>
+      <div class="lab-logo-container">
+        <p><br></p>
+        <a href="https://www.chenlaboratory.com/" target="_blank">
+          <img src="CHENLAB_logo.png" alt="Lab Logo" class="lab-logo">
+        </a>
+      </div>
+
+      <!-- Lab 1 -->
+      <div class="research-block" id="lab1">
+        <h2><strong>Computational Human-sociocultural Experimental Neuroscience Lab, NTU</strong></h2>
+        <p><i>Undergraduate Research Assistant, Department of Psychology | Supervisor: Prof. Pin-Hao Chen &nbsp; Jan. 2023 – Present</i></p>
+
+        <p>
+          At CHEN Lab, I analyzed multi-modal data, including text, posture/behavioral, and questionnaire, applying statistics, NLP, and ML to study social interaction dynamics.
+          I also <strong>led a conversation research group of three undergraduates</strong>, running weekly sprints, code reviews, and analysis plans.
+        </p>
+
+        <!-- 詳細內容（hover 展開） -->
+        <div class="more-text" id="lab1-more">
+          <h2>Research Projects</h2>
+
+          <h3> <a class="xlink" href="#proj-connection" title="Jump to related Project section">Predicting Connection Strength in Dyadic Interactions via Verbal and Nonverbal Cues</a></h3>
+          <ul class="project-list">
+            <li>Explored how verbal and nonverbal cues during dyadic face-to-face interactions predict the strength of interpersonal connection, particularly how in/consistency in participants' stances on a specific social issue influence shared experiences and connection</li>
+            <li>Utilized the OpenAI API and Hugging Face (BERT) for prompt engineering, fine-tuning, and embedding generation; used OpenPose to capture human poses to analyze multimodal data from face-to-face conversational interactions</li>
+            <li>Applied feature selection and dimensionality-reduction methods, and used ML models (classifiers, SVR, etc.) together with statistical tests (e.g., ANOVA) to quantify the relationship between interaction behaviors and perceived connectedness</li>
+            <li>Mentored and led three undergraduates in the conversation research group on project methods—including NLP/LLM fundamentals and data-analysis coding; handed off the plan, data, and subsequent analysis procedures via Git for version control</li>
+            <li>Currently conducting additional tests to ensure the robustness and accuracy of the findings</li>
+          </ul>
+          <div class="skills-label">Skills</div>
+          <div class="skill-badges" aria-label="Skills used in this project">
+            <span class="badge">Python</span>
+            <span class="badge">Prompt engineering</span>
+            <span class="badge">Fine-tuning</span>
+            <span class="badge">Text Embeddings</span>
+            <span class="badge">OpenAI API</span>
+            <span class="badge">HuggingFace Transformers</span>
+            <span class="badge">spaCy</span>
+            <span class="badge">NLTK</span>
+            <span class="badge">OpenPose</span>
+            <span class="badge">scikit-learn</span>
+            <span class="badge">statsmodels</span>
+            <span class="badge">PCA</span>
+            <span class="badge">matplotlib</span>
+            <span class="badge">seaborn</span>
+            <span class="badge">Git / GitHub</span>
+          </div>
+          <h3 id="re-anna"> <a class="xlink" href="#proj-anna" title="Jump to related Journal Submission in Projects">Exploring the Anna Karenina Principle in Mental Representations of Friendships and Well-being</a></h3>
+          <ul class="project-list">
+            <li>Used computational methodologies to examine the psychological and social dimensions linking mental representations of friendships to subjective well-being</li>
+            <li>Implemented <em>Intersubject Correlation (ISC)</em>, mixed-effects modeling, and factor analysis in Python and R; finding: individuals with higher well-being show more homogeneous friendship representations within their networks (<em>β</em> = .133, <em>p</em> = .007)</li>
+            <li>Presented at the 2024 Taiwanese Psychological Association Annual Conference; manuscript in preparation for <i>Nature Communications</i>
+            <li>Co-authored a manuscript as the first author, currently in prep. for submission</li>
+          </ul>
+          <div class="skills-label">Skills</div>
+          <div class="skill-badges" aria-label="Skills used in this project">
+            <span class="badge">Python</span>
+            <span class="badge">R</span>
+            <span class="badge">Intersubject Correlation (ISC)</span>
+            <span class="badge">Mixed-effects model</span>
+            <span class="badge">Factor analysis</span>
+            <span class="badge">Permutation tests</span>
+            <span class="badge">Bootstrap CIs</span>
+            <span class="badge">statsmodels</span>
+            <span class="badge">lme4 (R)</span>
+            <span class="badge">psych (R)</span>
+            <span class="badge">seaborn</span>
+          </div>
+
+          <h3 id="re-embeddings"> <a class="xlink" href="#conf-embeddings" title="Jump to related Conference Project">Cross-domain Text Semantic Similarity with Large Language Models</a></h3>
+          <ul class="project-list">
+            <li>Investigated how well LLM-derived text embeddings capture cross-domain semantic similarity and how <em>text length</em> biases similarity estimates.</li>
+            <li>Built a Mandarin news corpus via <code>Selenium</code> + <code>BeautifulSoup</code>, labeled by domain and length; cleaned/standardized with <code>pandas</code>.</li>
+            <li>Generated sentence/paragraph embeddings and computed cosine similarities; evaluated clustering/retrieval and ran statistical controls, showing length significantly affects measured similarity (<em>p</em> &lt; .001).</li>
+            <li>Visualized embedding spaces with UMAP/t-SNE and performed ablation checks across models and chunk sizes.</li>
+            <li>Presented at the 2023 Taiwanese Psychological Association Annual Conference.</li>
+          </ul>
+
+          <div class="skills-label">Skills</div>
+          <div class="skill-badges" aria-label="Skills used in this project">
+            <span class="badge">Python</span>
+            <span class="badge">Text Embeddings</span>
+            <span class="badge">Similarity analysis</span>
+            <span class="badge">Statistical testing</span>
+            <span class="badge">ANOVA / Regression</span>
+            <span class="badge">Selenium</span>
+            <span class="badge">BeautifulSoup</span>
+            <span class="badge">scikit-learn</span>
+          </div>
+          </div>
+      </div>
+
+    <!-- Lab 2 -->
+        <div class="lab-logo-container">
                 <p><br></p>
                 <a href="http://hyinfo.bse.ntu.edu.tw/WRHS/" target="_blank">
                     <img src="CFJ_Lab.png" alt="Lab Logo" class="lab-logo">
                 </a>
-            </div>
+        </div>
+      <div class="research-block" id="lab2">
+  <h2><strong>Water Resources and Hydroinformatics System Lab, NTU</strong></h2>
+  <p><i>Undergraduate Research Assistant, Department of BSE | Supervisor: Prof. Fi-John Chang &nbsp; Sep. 2022 - Aug. 2023</i></p>
 
-            <!-- Second Research Lab -->
-            <div class="research-block" id = "lab2">
-                <h2><strong>Water Resources and Hydroinformatics System Lab, NTU</strong></h2>
-                <p><i>Undergraduate Research Assistant, Department of BSE | Supervisor: Prof. Fi-John Chang &nbsp;Sep. 2022 - Aug. 2023</i></p>
-                
-                <!-- Short content for the second lab -->
-                <p>
-                    In WRHS Lab, I mainly focused on developing a <strong>deep learning-based multi-step water quality prediction model</strong> to improve prediction accuracy.
-                    <span class="more-text"> <!-- Hidden content -->
-                    <br><br>This work involved extensive <u>data scraping and system analysis</u> of hydrological, climate, and geographical datasets. Additionally, I employed <u>advanced imputation techniques</u> to handle missing data and applied series of LSTM models for time-series predictions.
-                    
-                
-                <br><br>
-                <h2>Highlighted Research:</h2>
-                <h3><strong>Leveraging Deep Learning and Imputation Techniques for Accurate Water Quality</strong></h3>
-                    </p>
-                </span>
-            </div>
+  <p>
+    In WRHS Lab, I mainly focused on developing a <strong>deep learning-based multi-step water quality prediction model</strong> to improve prediction accuracy.
+  </p>
 
+  <div class="more-text" id="lab2-more">
 
-            
-        </section>
-        
-        <!-- Projects Section -->
-        <section id="about">
-            <h1 id="projects">Projects</h1>
-            
-            <h2><br>Journal Submissions<br> </h2>
-        
-                <!-- First Journal Publication -->
-                <div class="project-block" id="Pub1" >
-                    <h3>Unpacking the Anna Karenina Principle: Mental Representations of Friendships and their Impact on Well-Being</h3>
-                    <p> <u>Chang, C-Y. E.</u>, F-C B. Chou, W-T W. Lee, J-H Chang & P-H A. Chen. (In prep. for submission to <i>Nature Communications</i>) </p>
-                    
-                        <div class="skills">
-                            Skills: Advanced Statistics Analysis, Mental Representations, Social Interactions, Mental Health
-                        </div>
-                            <span class="more-text"> <!-- Hidden content -->
-                            <p><br>
-                            We utilized a novel approach to investigate the link between mental representations of friendships and well-being through the Anna Karenina principle. By employing representational analysis, we found strong evidence demonstrating that not only quality or quantity of friendships predict well-being, but also how individuals represent their relationships in their minds can determine their well-being. The paper is currently under preparation for submission to <i>Nature Communication</i>; therefore, further details cannot be disclosed at this time.
-                            </p>
-                        </span>
-                    </p>
-                </div>
+    <!-- 新增：Project 名稱 + 條列 + 技能徽章（含獲獎資訊，粗體） -->
+    <h2>Research Project</h2>
+    <h3 id="re-embeddings"> <a class="xlink" href="#conf-embeddings" title="Jump to related Conference Project">Leveraging Deep Learning and Imputation Techniques for Accurate Water Quality Predictions: Findings from Taipei Bridge</a></h3>
 
-                <!-- Second Journal Publication -->
-                <div class="project-block" id="Pub2">
-                    <h3>Leveraging Deep Learning and Imputation Techniques for Accurate Water Quality</h3>
-                    <p> <u>Chang, C-Y. E.</u>, V. H-C Liao, F-J Chang. (Submitted to <i>Science of the Total Environment</i>) </p>
-                    
-                    <div class="skills">
-                        Skills: Deep Learning, Statistics, Data Scraping, Environmental and Water Management
-                    </div>
-                    <span class="more-text"> <!-- Hidden content -->
-                        <p><br>
-                            I presented a novel framework combining MICE-RF imputation and LSTM-ED models to predict Dissolved Oxygen (DO) and Ammonia Nitrogen (NH3-N) levels in the Dansuie River in Taipei. Leveraging over 20,000 hourly data points, our model significantly outperforms traditional LSTM and CNN-LSTM models, achieving up to 14.1% R² improvement for DO and 13.9% for NH3-N. It offers reliable multi-step forecasts and robust handling of missing data. The paper has been submitted to <i>Science of the Total Environment</i> and has not yet been published; therefore, further details cannot be disclosed at this time.
-.
-                            <!-- <br>The following image is a graphical abstract, providing a visual summary of the study.-->
-                        </p>
-                        <!-- img src="LSTM_abstract.png" class="poster-img"-->
-                    </span>
-                </p>
-                    
-                </div>
+    <ul class="project-list">
+      <li>
+        Proposed an advanced water-quality prediction framework that integrates MICE-RF imputation and an LSTM-Encoder–Decoder (LSTM-ED) to improve forecasts of dissolved oxygen and ammonia nitrogen;
+        <strong>awarded the College Student Research Scholarship (National Science and Technology Council)</strong>.
+      </li>
+      <li>
+        Scraped and consolidated open water-quality records; applied multivariate imputation by chained equations with Random Forest (MICE-RF) to fill missing values and benchmarked against KNN imputation.
+      </li>
+      <li>
+        Built a multivariate, multi-step LSTM-ED model achieving an R² close to 0.9 for the next-step forecast, outperforming baseline LSTM and CNN-LSTM models.
+      </li>
+    </ul>
 
-            <!-- Conference Presentations Section -->
-            
-            <h2><br>Conference Presentations and Posters<br> </h2>
-                
-                <!-- First Journal Publication -->
-                <div class="project-block" id="Pub1" >
-                    <h3>Exploring cross-domain text semantic similarity using large language models</h3>
-                    <p> <u>Chang, C-Y. E.</u>, Chou, F.-C. B., Chen, P.-H. A.(2023).<br>Taiwanese Psychological Association Annual Meeting</p>
-                    
-                        <div class="skills">
-                            Skills: NLP, Large Language Model
-                        </div>
-                            <span class="more-text"> <!-- Hidden content -->
-                            <p><br>
-                                We utilize OpenAI's text embedding model to investigate whether text embeddings accurately reflect semantic similarity and how the simialarities could be affected by the lengths of the texts from a dataset comprising nearly 35 articiles across various domains.
-                            <br>The results demonstrate that These embeddings successfully differentiate articles from various domains. However, longer articles demonstrated higher semantic similarity compared to shorter ones, even within the same domain. This project offers valuable insights for future researchers, emphasizing the need to account for article or conversational text length as a potential confounding factor in text similarity analysis using LLM methods.
-                            </p>
-                            <img src="text_poster.png" class="poster-img">
-                        </span>
-                    </p>
-                </div>
-                
-                <div class="project-block" id="Pub1" >
-                    <h3>Mental representations of friendships predict subjective well-being</h3>
-                    <p> <u>Chang, C-Y. E.</u>, F-C B. Chou, W-T W. Lee, J-H Chang & P-H A. Chen.(2024). <br>Taiwanese Psychological Association Annual Meeting</p>
-                    
-                        <div class="skills">
-                            Oral presentation of the publication - Unpacking the Anna Karenina Principle: Mental Representations of Friendships and their Impact on Well-Being
-                        </div>
-                    </p>
-                </div>
-            
-        </section>
-        <script>
-        function toggleVisibility(id) {
-            var element = document.getElementById(id);
-            if (element.style.display === "none") {
-                element.style.display = "block";
-            } else {
-                element.style.display = "none";
-            }
-        }
-        </script>
-
-
-            
-    <section id="about">
-        <h1 id="internship">Internship</h1>
-            <br>
-            <h2> CAYIN TECHNOLOGY CO., LTD., Taipei, Taiwan</h2>
-            <p>LLM Project Development, &nbsp;July 2024 - Aug. 2024</p>
-            <p>I accomplished a project focused on integrating large language models and generative AI into the company’s design interface. I developed a web application that demonstrated how generative AI could rapidly generate high-quality ad copy and design templates tailored to customers needs. 
-                Additionally, by collaborating with the R&D team to integrate these AI-driven features into the company’s software, we expect to enhance both efficiency and user experience.
-            <br>
-            </p>
-        </section>
-    <section id="about">
-        <h1 id="extracurricular"><br>Extracurricular</h1>
-            <div class="separator"></div>  
-            <p><br>I have a strong passion for both <u>sports and music</u>, which have been integral parts of my life. These activities have allowed me to develop leadership skills, teamwork, and creativity outside of my academic endeavors.</p>
-            <!-- Basketball -->
-            <div class="project-block" id="Pub1" >
-                <h2>Music</h2>                    
-                <p>
-                    <be>My journey with music began at a young age, fueled by an extraordinary passion that drove me to spend countless hours practicing piano. This dedication led me to win multiple gold and silver medals in international competitions, and for a time, I even dreamed of becoming a professional pianist.
-                    <br><br>Though my academic pursuits eventually took center stage, my love for music never wavered. To channel this passion, I co-founded a pop-punk band, <u>DayBreak Crammers</u>, during college as a keyboardist, blending my classical training with a modern twist. Our band not only created original music but also performed in various venues, sharing our energy and creativity with audiences. Music remains an integral part of my life, reminding me of the joy of creating and connecting with others.
-                        <br>
-                        <span class="more-text"></span>
-                        <a href="https://streetvoice.com/daybreak_crammers/" target="_blank"><strong>(Click here to listen!)</strong></a>
-                        
-                        <br><br>Additionally, I also participated in another band and won the Best Live Performance Award at the prestigious 38th NCCU Golden Melody Award in 2021. 
-                        Playing in the band has been a creative outlet for me, allowing me to explore different musical styles and express myself through performance.
-                        <br>
-                        <div class="video-container" style="text-align: center; margin-top: 20px;">
-                            <iframe width="560" height="315" 
-                            src="https://www.youtube.com/embed/gOOzDJ9PZF4" 
-                            title="YouTube video player" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                            allowfullscreen
-                            style="border: 4px solid #333; border-radius: 10px;">
-                            </iframe>
-                        </div>
-                </span>
-                </p>
-
-            </div>
-            <div class="project-block" id="Pub1" >
-                <h2>Basketball</h2>                    
-                <p>
-                     My passion for basketball began at the age of ten, when I first encountered the NBA. Kobe Bryant quickly became my idol—not just for his graceful playing style, but for the resilience, determination, and relentless passion he embodied. These qualities resonated deeply with me, as they mirrored the dedication I poured into my music pursuits at the time. 
-                    <br><br>This mindset carried over into other aspects of my life, especially academics. Whenever faced with challenges, I drew inspiration from Kobe's "Mamba Mentality," embracing every setback as an opportunity to grow stronger. 
-                    <br><br>From July 2021 to June 2023, I had the honor of serving as the <ur>Captain of the Men's Basketball Team in the Department of BSE</ur> at NTU. Leading the team to two runner-up finishes in interdepartmental and national competitions was not just about strategy and skill; it was about fostering collaboration, resilience, and an unwavering belief in our collective potential. 
-                    <br><br>Basketball has shaped me into a more disciplined, strategic, and collaborative individual, traits that continue to guide my journey both on and off the court. 
-                </p>
-            </div>
-        </section>
+    <div class="skills-label">Skills</div>
+    <div class="skill-badges" aria-label="Skills used in this project">
+      <span class="badge">Python</span>
+      <span class="badge">Data lifecycle</span>
+      <span class="badge">Data scraping</span>
+      <span class="badge">Data Imputation</span>
+      <span class="badge">Time-series forecasting</span>
+      <span class="badge">Deep Learning</span>
+      <span class="badge">Model Optimization</span>
+      <span class="badge">Model Evaluation</span>
+      <span class="badge">scikit-learn</span>
+      <span class="badge">PyTorch</span>
+      <span class="badge">matplotlib</span>
+      <span class="badge">seaborn</span>
     </div>
 </div>
 
+    </section>
+
+    <!-- Projects -->
+    <section id="projects">
+      <h1>Projects</h1>
+
+      <h2><br>Journal Submissions<br></h2>
+
+      <!-- Journal 1 -->
+      <div class="project-block" id="proj-anna">
+        <h3><a class="xlink" href="#re-anna" title="Back to related Research Experience">Unpacking the Anna Karenina Principle: Mental Representations of Friendships and their Impact on Well-Being</a></h3>
+        <p><u>Chang, C-Y. E.</u>, F-C B. Chou, W-T W. Lee, J-H Chang & P-H A. Chen. (In prep. for submission to <i>Nature Communications</i>)</p>
+
+        <div class="skills">Skills: Advanced Statistics Analysis, Mental Representations, Social Interactions, Mental Health</div>
+      </div>
+
+
+      <h2><br>Conference Presentations and Posters<br></h2>
+
+      <!-- Conf 1 -->
+      <div class="project-block" id="conf-embeddings">
+        <h3><a class="xlink" href="#re-embeddings" title="Back to related Research Experience">Exploring cross-domain text semantic similarity using large language models</a></h3>
+        <p><u>Chang, C-Y. E.</u>, Chou, F.-C. B., Chen, P.-H. A. (2023).<br>Taiwanese Psychological Association Annual Meeting</p>
+
+        <div class="more-text" id="conf-embeddings-more">
+          <img src="text_poster.png" class="poster-img" alt="Poster">
+        </div>
+      </div>
+
+      <!-- Conf 2 -->
+      <div class="project-block" id="conf-wellbeing">
+        <h3>Mental representations of friendships predict subjective well-being</h3>
+        <p><u>Chang, C-Y. E.</u>, F-C B. Chou, W-T W. Lee, J-H Chang & P-H A. Chen. (2024).<br>Taiwanese Psychological Association Annual Meeting</p>
+
+        <div class="skills">
+          Oral presentation of the publication - Unpacking the Anna Karenina Principle: Mental Representations of Friendships and their Impact on Well-Being
+        </div>
+      </div>
+
+      <!-- Others -->
+      <h2><br>College Research Scholarship<br></h2>
+      <div class="project-block" id="conf-embeddings">
+        <h3><a class="xlink" href="#re-embeddings" title="Back to related Research Experience">Leveraging Deep Learning and Imputation Techniques for Accurate Water Quality Predictions: Findings from Taipei Bridge</a></h3>
+
+        <div class="more-text" id="conf-embeddings-more">
+          <img src="LSTM_abstract.png" class="poster-img" alt="Poster">
+        </div>
+      </div>
+    </section>
+
+    <!-- Internship -->
+    <section id="internship">
+      <h1>Internship</h1>
+      <br>
+      <h2>
+        <a class="xlink" href="https://www.cayintech.com/" target="_blank" rel="noopener noreferrer">
+            CAYIN TECHNOLOGY CO., LTD., Taipei, Taiwan
+        </a>
+      </h2>
+      <p><i>AI Engineer Summer Intern, &nbsp;July 2024 – Aug. 2024</i></p>
+
+        <!-- Summary -->
+        <p>
+            Built an internal web application that integrated LLMs into the company’s design workflow—generating on-brand ad copy and layout suggestions—and collaborated with R&amp;D to fold the features into production software to improve efficiency and user experience.
+        </p>
+
+        <!-- Bullets -->
+        <ul class="project-list">
+            <li>Designed prompt templates and guardrails for ad-copy and template generation; parameterized tone/length/constraints for consistent outputs.</li>
+            <li>Implemented a lightweight backend wrapper for the OpenAI API with input validation, error handling.</li>
+            <li>Prototyped a browser UI for quick iteration and stakeholder demos; gathered feedback to refine UX and prompt variants.</li>
+            <li>Prepared handoff docs and code on GitHub, and worked with the R&amp;D team to integrate the LLM features into the company’s software.</li>
+        </ul>
+
+        <!-- Skills badges -->
+        <div class="skills-label">Skills</div>
+        <div class="skill-badges" aria-label="Skills used during the internship">
+            <span class="badge">OpenAI API</span>
+            <span class="badge">Prompt engineering</span>
+            <span class="badge">Generative AI</span>
+            <span class="badge">Web app prototyping</span>
+            <span class="badge">JavaScript</span>
+            <span class="badge">Node.js</span>
+            <span class="badge">React</span>
+            <span class="badge">HTML/CSS</span>
+            <span class="badge">UX refinement</span>
+            <span class="badge">Git</span>
+        </div>
+    </section>
+
+    <!-- Extracurricular -->
+    <section id="extracurricular">
+      <h1><br>Extracurricular</h1>
+      <div class="separator"></div>
+      <p><br>I have a strong passion for both <u>sports and music</u>, which have been integral parts of my life. These activities have allowed me to develop leadership skills, teamwork, and creativity outside of my academic endeavors.</p>
+
+      <div class="project-block" id="music">
+        <h2>Music</h2>
+        <p>
+          My journey with music began at a young age, fueled by an extraordinary passion that drove me to spend countless hours practicing piano. This dedication led me to win multiple gold and silver medals in international competitions, and for a time, I even dreamed of becoming a professional pianist.
+          <br><br>Though my academic pursuits eventually took center stage, my love for music never wavered. To channel this passion, I co-founded a pop-punk band, <u>DayBreak Crammers</u>, during college as a keyboardist, blending my classical training with a modern twist. Our band not only created original music but also performed in various venues, sharing our energy and creativity with audiences. Music remains an integral part of my life, reminding me of the joy of creating and connecting with others.
+          <br><br><a href="https://streetvoice.com/daybreak_crammers/" target="_blank"><strong>(Click here to listen!)</strong></a>
+          <br><br>Additionally, I also participated in another band and won the Best Live Performance Award at the prestigious 38th NCCU Golden Melody Award in 2021. Playing in the band has been a creative outlet for me, allowing me to explore different musical styles and express myself through performance.
+        </p>
+        <div class="video-container" style="text-align:center; margin-top:20px;">
+          <iframe width="560" height="315"
+            src="https://www.youtube.com/embed/gOOzDJ9PZF4"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            loading="lazy"
+            style="border:4px solid #333; border-radius:10px; max-width:100%;">
+          </iframe>
+        </div>
+      </div>
+
+      <div class="project-block" id="basketball">
+        <h2>Basketball</h2>
+        <p>
+          My passion for basketball began at the age of ten, when I first encountered the NBA. Kobe Bryant quickly became my idol—not just for his graceful playing style, but for the resilience, determination, and relentless passion he embodied. These qualities resonated deeply with me, as they mirrored the dedication I poured into my music pursuits at the time.
+          <br><br>This mindset carried over into other aspects of my life, especially academics. Whenever faced with challenges, I drew inspiration from Kobe's "Mamba Mentality," embracing every setback as an opportunity to grow stronger.
+          <br><br>From July 2021 to June 2023, I had the honor of serving as the <u>Captain of the Men's Basketball Team in the Department of BSE</u> at NTU. Leading the team to two runner-up finishes in interdepartmental and national competitions was not just about strategy and skill; it was about fostering collaboration, resilience, and an unwavering belief in our collective potential.
+          <br><br>Basketball has shaped me into a more disciplined, strategic, and collaborative individual, traits that continue to guide my journey both on and off the court.
+        </p>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script>
+  /* ========= 平滑捲動到 .content ========= */
+  document.querySelectorAll('.sidebar nav a[href^="#"]').forEach(a=>{
+    a.addEventListener('click', e=>{
+      e.preventDefault();
+      const id = a.getAttribute('href').slice(1);
+      const target = document.getElementById(id);
+      const container = document.querySelector('.content');
+      if(!target || !container) return;
+      const top = target.offsetTop - 8;
+      container.scrollTo({ top, behavior:'smooth' });
+      history.replaceState(null,'',`#${id}`);
+    });
+  });
+
+  /* ========= ScrollSpy：高亮目前所在區塊 ========= */
+  const spyLinks = Array.from(document.querySelectorAll('.sidebar nav a[href^="#"]'));
+  const linkMap  = new Map(spyLinks.map(a=>[a.getAttribute('href').slice(1), a]));
+  const spyRoot  = document.querySelector('.content');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      const id = entry.target.id;
+      const link = linkMap.get(id);
+      if(!link) return;
+      if(entry.isIntersecting){
+        spyLinks.forEach(x=>x.removeAttribute('aria-current'));
+        link.setAttribute('aria-current','page');
+      }
+    });
+  }, { root: spyRoot, rootMargin:'0px 0px -60% 0px', threshold:0.2 });
+
+  ['about','research','projects','internship','extracurricular']
+    .forEach(id=>{ const el = document.getElementById(id); if(el) io.observe(el); });
+</script>
+
 </body>
 </html>
+
 
 
