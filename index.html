@@ -237,6 +237,17 @@
 
     /* 浮鈕層級 */
     #chat-launcher{ z-index: 1100; }
+
+    /* 1) 穩定瀏覽器垂直捲軸，避免寬度忽隱忽現造成的位移 */
+    html { scrollbar-gutter: stable both-edges; }
+
+    /* 2) 明確鎖定 #chat-dialog 的寬度參考「視窗寬度 - 兩側 20px 邊距」 */
+    #chat-dialog{
+      width: min(600px, calc(100vw - 40px)); /* ← 40px = 右 20 + 左 20 的安全邊距 */
+    }
+
+    /* 3) 讓卡片吃滿容器寬度（避免父層 auto 寬度時的回縮） */
+    #chat-dialog .chat-card{ width: 100%; }
   </style>
 </head>
 <body>
