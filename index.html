@@ -620,7 +620,7 @@
     .forEach(id=>{ const el = document.getElementById(id); if(el) io.observe(el); });
 </script>
 <!-- Chat launcher -->
-<button id="chat-launcher" aria-haspopup="dialog" aria-controls="chat-dialog" title="Chat with my RAG bot">
+<button id="chat-launcher" aria-haspopup="dialog" aria-controls="chat-dialog" title="Chat with my personal chatbot EDDi">
   💬
 </button>
 
@@ -628,7 +628,7 @@
 <div id="chat-dialog" role="dialog" aria-modal="true" aria-labelledby="chat-title" hidden>
   <div class="chat-card">
     <header>
-      <h3 id="chat-title">Ask my knowledge base</h3>
+      <h3 id="chat-title">EDDi — Edward’s Assistant</h3>
       <button id="chat-close" aria-label="Close">✕</button>
     </header>
 
@@ -639,7 +639,7 @@
       <button id="chat-send" type="submit">Send</button>
     </form>
 
-    <small class="chat-hint">Answers are grounded in my docs with citations.</small>
+    <small class="chat-hint">Responses are grounded in my docs using RAG.</small>
   </div>
 </div>
 
@@ -690,7 +690,7 @@
   function show(){
     dialog.removeAttribute('hidden');
     if(!greeted){
-      addMsg('Hi! Ask me anything about my background. I’ll answer using my own docs.'); 
+      addMsg('Hi! I’m EDDi, Edward’s assistant. Ask me about his background, labs, projects, or resume.'); 
       greeted = true;
     }
     setTimeout(()=>input.focus(),0);
