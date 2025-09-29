@@ -564,7 +564,7 @@ html{ scrollbar-gutter: stable both-edges; }
       <!-- Lab 1 -->
       <div class="research-block" id="lab1">
         <h2><strong>Computational Human-sociocultural Experimental Neuroscience Lab, NTU</strong></h2>
-        <p><i>Undergraduate Research Assistant, Department of Psychology | Supervisor: Prof. Pin-Hao Chen &nbsp; Jan. 2023 – Present</i></p>
+        <p><i>Undergraduate Research Assistant, Department of Psychology | Supervisor: Prof. Pin-Hao Chen &nbsp; Jan. 2023 – Jan. 2025</i></p>
 
         <p>
           At CHEN Lab, I analyzed multi-modal data, including text, posture/behavioral, and questionnaire, applying statistics, NLP, and ML to study social interaction dynamics.
@@ -979,8 +979,32 @@ html{ scrollbar-gutter: stable both-edges; }
     }
   });
 })();
+
+// 放在 <script> 中（簡化版）
+const history = []; // [{role:'user'|'assistant', content:'...'}]
+
+async function askRAG(query){
+  const r = await fetch(`${API_BASE}/api/generate`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({
+      query,
+      k: 12,
+      history: history.slice(-8) // 只帶最近 8 則，控 token
+    })
+  });
+  const data = await r.json();
+  return data.text;
+}
+
+form.addEventListener('submit', async (e)=>{
+  // ...略
+  const answer = await askRAG(q);
+  history.push({ role:'user', content:q });
+  history.push({ role:'assistant', content:answer });
+  // ...略
+});
+
 </script>
-
-
 </body>
 </html>
