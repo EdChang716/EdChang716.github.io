@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta property="og:title" content="C.Y. Edward (Chih Yuan) Chang — Portfolio" />
+  <meta property="og:description" content="ML/NLP/LLM researcher. RAG, embeddings, and applied ML projects." />
+  <meta property="og:image" content="mypic.webp" />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Chih Yuan Chang</title>
@@ -41,15 +45,28 @@
       background-origin: border-box;
     }
 
-    h2 { font-size:26px; color:#1f2937; font-family:'Montserrat', sans-serif; margin-bottom:20px; border-bottom:2px solid #e5e7eb; padding-bottom:10px; }
+    h2 { font-size:26px; color:#1f2937; font-family:'Inter', sans-serif; margin-bottom:20px; border-bottom:2px solid #e5e7eb; padding-bottom:10px; }
     p  { font-size:18px; line-height:1.7; color:#5c5e61; margin-bottom:20px; }
 
     .contact-info a { color:#1f2937; text-decoration:none; font-size:18px; font-weight:bold; }
-    .social-links a { font-size:24px; color:#1f2937; margin-right:20px; transition: color .3s; }
-    .social-links a:hover { color:#f97316; }
+    .social-links{
+      display: flex;
+      align-items: center;
+      gap: 16px;              /* 圖示間距 */
+    }
+    .social-links .social-img{
+      width: 80px;            /* 和 LinkedIn SVG 同尺寸 */
+      height: auto;
+      transition: transform .12s ease, filter .2s ease;
+    }
+    .social-links a:hover .social-img,
+    .social-links a:hover svg{
+      transform: translateY(-2px);
+      filter: drop-shadow(0 6px 12px rgba(2,6,23,.15));
+    }
 
     /* About */
-    #about { padding:60px; font-family:"Gill Sans", sans-serif; }
+    #about { padding:60px; font-family:"Inter", sans-serif; }
     #about h1 { font-family:'Montserrat', sans-serif; font-size:36px; margin-bottom:18px; color:rgb(28,28,69); }
     #about h5 { font-family:'Montserrat', sans-serif; font-size:20px; letter-spacing:.8px; color:#333; font-weight:400; margin:0; }
 
@@ -78,9 +95,9 @@
     }
 
     .research-block h2, .project-block h2 {
-      font-family:'Montserrat', sans-serif; font-size:25px; font-weight:700; color:#0f172a; margin-bottom:12px; border:none;
+      font-family:'Inter', sans-serif; font-size:25px; font-weight:700; color:#0f172a; margin-bottom:12px; border:none;
     }
-    .research-block h3, .project-block h3 { font-family:'Montserrat', sans-serif; font-size:20px; font-weight:600; color:#111827; margin:16px 0 10px; }
+    .research-block h3, .project-block h3 { font-family:'Inter', sans-serif; font-size:20px; font-weight:600; color:#111827; margin:16px 0 10px; }
 
     .research-block p, .project-block p { margin-bottom:12px; color:#475569; }
 
@@ -145,7 +162,7 @@
     }
     /* 小標題（可選） */
     .skills-label{
-    font-family:'Montserrat', sans-serif;
+    font-family:'Inter', sans-serif;
     font-weight:700;
     font-size:14px;
     color:#0f172a;
@@ -154,11 +171,22 @@
     /* Chat launcher */
     #chat-launcher{
       position: fixed; right: 24px; bottom: 24px; z-index: 50;
-      width:56px; height:56px; border:none; border-radius:50%;
-      background:#0ea5e9; color:#fff; font-size:22px; cursor:pointer;
+      width:72px; height:72px; border:none; border-radius:50%;
+      background:#0ea5e9; color:#fff; font-size:28px; cursor:pointer;
       box-shadow:0 10px 20px rgba(2,6,23,.15); transition:transform .12s ease, box-shadow .12s;
     }
     #chat-launcher:hover{ transform:translateY(-2px); box-shadow:0 14px 28px rgba(2,6,23,.2); }
+
+    /* 小螢幕再微調一下位置與大小（可選） */
+    @media (max-width: 480px){
+      #chat-launcher{
+        right: 16px;
+        bottom: 16px;
+        width: 64px;
+        height: 64px;
+        font-size: 24px;
+      }
+    }
 
     
     /* 覆蓋：整個遮罩 */
@@ -186,7 +214,7 @@
       display: flex; align-items: center; justify-content: space-between;
       padding: 12px 14px; background: #f8fafc; border-bottom: 1px solid #eef2f7;
     }
-    #chat-title{ font-family:'Montserrat',sans-serif; font-size:16px; color:#0f172a; margin:0; }
+    #chat-title{ font-family:'Inter',sans-serif; font-size:16px; color:#0f172a; margin:0; }
     #chat-close{ border: none; background: transparent; font-size: 18px; cursor: pointer; color:#475569; }
 
     /* 訊息列表：給它高度 */
@@ -248,6 +276,211 @@
 
     /* 3) 讓卡片吃滿容器寬度（避免父層 auto 寬度時的回縮） */
     #chat-dialog .chat-card{ width: 100%; }
+
+    /* === 0) Tokens / base === */
+:root{
+  --bg:#f7f8fb;
+  --surface:#ffffff;
+  --text:#0f172a;
+  --muted:#475569;
+  --border:#e5e7eb;
+  --brand:#0ea5e9;
+  --brand-600:#0284c7;
+  --shadow: 0 8px 30px rgba(2,6,23,.08);
+  --radius:16px;
+}
+body{ background:var(--bg); color:var(--text); }
+
+/* === 1) Content width & spacing === */
+.content{
+  padding: clamp(28px, 3vw, 60px);
+  background: var(--surface);
+}
+.content > section{
+  max-width: 980px;
+  margin-inline: auto;
+}
+
+/* === 2) Type scale (fluid) === */
+#about h1{ font-size: clamp(28px, 3vw, 36px); letter-spacing:.2px; }
+h2{ font-size: clamp(22px, 2.2vw, 26px); }
+
+/* === 3) Cards (research/project) === */
+.research-block, .project-block{
+  border:1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  position: relative;
+}
+
+/* Gentle hover */
+.research-block:hover, .project-block:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 14px 40px rgba(2,6,23,.14);
+  border-color:#dbe3f0;
+}
+
+/* Optional: fade-at-bottom when collapsed (so cut-off feels intentional) */
+.research-block::after, .project-block::after{
+  content:"";
+  position:absolute; inset:auto 0 0 0; height:46px;
+  pointer-events:none;
+  background:linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1) 85%);
+  opacity:1; transition:opacity .2s;
+}
+.research-block:hover::after, .project-block:hover::after{ opacity:0; }
+
+/* === 4) Badges === */
+.badge{
+  background:#f9fbff;
+  border-color:#e6edf7;
+}
+.badge:hover{
+  background:#eef6ff;
+  box-shadow:0 6px 18px rgba(2,6,23,.08);
+}
+
+/* === 5) Sidebar active indicator (clearer) === */
+.sidebar nav a[aria-current="page"]{
+  background:#e8f3ff;
+  color:#0f172a;
+  font-weight:700;
+  box-shadow: inset 3px 0 0 0 var(--brand);
+}
+
+/* === 6) Chat polish (keep your no-dim design) === */
+#chat-launcher{
+  width:120px; height:120px; font-size:36px;
+  display:inline-flex; align-items:center; justify-content:center;
+  box-shadow: 0 12px 24px rgba(61, 175, 209, 0.89);
+}
+#chat-dialog{
+  /* 右下角間距一起放大一點（可改） */
+  right: 24px !important;
+  bottom: 24px !important;
+
+  /* 寬度：720px，手機則留 48px 邊距 */
+  width: min(600px, calc(100vw - 48px)) !important;
+}
+#chat-dialog .chat-card{
+  border-radius:20px; border:1px solid var(--border); box-shadow:0 12px 40px rgba(2,6,23,.25);
+}
+#chat-dialog header{
+  background:#f8fafc; border-bottom:1px solid #eef2f7;
+}
+.msg.bot{ border:1px solid var(--border); }
+
+/* === 7) Scrollbar stability (avoid layout jump) === */
+html{ scrollbar-gutter: stable both-edges; }
+
+/* === 8) Dark mode (automatic) === */
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0b1120;
+    --surface:#0f172a;
+    --text:#e2e8f0;
+    --muted:#94a3b8;
+    --border:#1f2a44;
+    --brand:#38bdf8;
+    --brand-600:#0ea5e9;
+    --shadow: 0 12px 30px rgba(0,0,0,.45);
+  }
+  body{ background:var(--bg); color:var(--text); }
+  .content{ background:var(--surface); }
+  .research-block, .project-block{ border-color:var(--border); }
+  .research-block::after, .project-block::after{
+    background:linear-gradient(to bottom, rgba(15,23,42,0), rgba(15,23,42,1) 85%);
+  }
+  .badge{ background:#0b1b2b; border-color:#1d3148; color:#cfe8ff; }
+  #chat-dialog .chat-card{ background:var(--surface); border-color:var(--border); }
+  #chat-dialog header{ background:#0b1b2b; border-color:#1d3148; }
+  .msg.bot{ background:#0b1b2b; border-color:#1d3148; color:#dbeafe; }
+  .msg.user{ background:#052b45; color:#e0f2fe; }
+}
+
+/* ===== Hero Card (About 區塊) ===== */
+.hero-card{
+  padding: 36px 40px;
+  margin: 10px 0 40px;
+  border-radius: 24px;
+  border: 1px solid #e5e7eb;
+  background:
+    linear-gradient(#fff,#fff),
+    radial-gradient(120% 80% at 0% 0%, #f6f7fb 0%, transparent 45%),
+    radial-gradient(140% 100% at 100% 100%, #eef2ff 0%, transparent 50%);
+  background-origin: border-box;
+  box-shadow: 0 16px 40px rgba(2,6,23,.08);
+}
+
+.hero-title{
+  font-family:'Inter',sans-serif;
+  font-size: clamp(28px, 3.2vw, 40px);
+  color:#0f172a;
+  margin: 0 0 6px;
+}
+.hero-subtitle{
+  font-style: italic;
+  color:#334155;
+  font-size: clamp(16px,1.8vw,20px);
+  margin-bottom: 14px;
+}
+.hero-sep{ height:1px; background:#e5e7eb; margin:14px 0 22px; }
+
+.hero-body p{
+  margin-bottom:16px;
+  color:#475569;
+  line-height:1.9;
+}
+
+/* 底部社群按鈕列（可選） */
+.hero-actions{
+  display:flex; gap:14px; margin-top:18px; align-items:center;
+}
+.hero-actions a.icon{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:48px; height:48px; border-radius:999px;
+  border:1px solid #e5e7eb; background:#fff;
+  box-shadow:0 4px 16px rgba(2,6,23,.08);
+  transition: transform .12s ease, box-shadow .2s ease;
+}
+.hero-actions a.icon:hover{
+  transform: translateY(-2px);
+  box-shadow:0 10px 24px rgba(2,6,23,.16);
+}
+.hero-actions img{ width:28px; height:28px; }
+
+@media (max-width:768px){
+  .hero-card{ padding:24px; }
+}
+
+#about h1,
+.content h1 {
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 900;          /* 可改 800 看喜好 */
+  letter-spacing: -0.02em;   /* 微調字距讓粗體更穩 */
+  color: #0f172a;            /* 深一點更有份量 */
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* 側邊欄名字也想更厚可加這段（可選） */
+.sidebar h1 {
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+/* FIX: bigger social icons (hero-actions version) */
+.hero-actions a.icon{
+  width:90px;                 /* 原本 48 → 放大 */
+  height:90px;
+}
+.hero-actions img{
+  width:56px;                 /* 原本 28 → 放大 */
+  height:56px;
+}
+
+#chat-dialog[hidden] { display: none !important; }
   </style>
 </head>
 <body>
@@ -269,39 +502,49 @@
   <!-- Main content -->
   <div class="content">
     <!-- About -->
-    <section id="about">
-      <h1>C.Y. Edward Chang</h1>
-      <h5><i>Master of Science in Data Science, Columbia University</i></h5>
+    <section id="about" class="hero-card">
+      <h1 class="hero-title">C.Y. Edward Chang</h1>
+      <div class="hero-subtitle">Master of Science in Data Science, Columbia University</div>
 
-      <div class="separator"></div>
+      <div class="hero-sep"></div>
 
-      <p style="margin-top: 30px;">
-        The most useful lessons I’ve learned didn’t come from perfect models—they came from the ones that broke at 3 a.m.
-        Chasing down edge cases and refining problem-solving skills eventually brought me to New York, where I’m pursuing an
-        <i>M.S. in Data Science at Columbia University</i> (expected December 2026).
-      </p>
-      <p>
-        My undergraduate training (GPA 3.86/4.00) built the foundation I rely on, courses in
-        <i>machine learning</i>, <i>artificial neural networks</i>, and <i>natural language processing</i> sharpened the tools,
-        while hands-on projects taught me when to reach for which one
-        (see <a href="Resume.pdf" target="_blank"><i>my CV</i></a> for details).
-      </p>
-      <p>
-        What excites me most is taking data science out of the textbook and into the real world—from social and behavioral data
-        to environmental systems—turning raw data into decisions that matter. These interdisciplinary adventures have led to <u>one paper</u> in preparation, several conference presentations, and a College Student Research Scholarship (see the <a href="#research"><i>Research</i></a> section).
-      </p>
+      <div class="hero-body">
+        <p>
+          The most useful lessons I’ve learned didn’t come from perfect models—they came from the ones that broke at 3 a.m.
+          Chasing down edge cases and refining problem-solving skills eventually brought me to New York, where I’m pursuing an
+          <i>M.S. in Data Science at Columbia University</i> (expected December 2026).
+        </p>
+        <p>
+          My undergraduate training (GPA 3.86/4.00) built the foundation I rely on, courses in
+          <i>machine learning</i>, <i>artificial neural networks</i>, and <i>natural language processing</i> sharpened the tools,
+          while hands-on projects taught me when to reach for which one
+          (see <a href="Resume.pdf" target="_blank"><i>my resume</i></a> for details).
+        </p>
+        <p>
+          What excites me most is taking data science out of the textbook and into the real world—from social and behavioral data
+          to environmental systems—turning raw data into decisions that matter. These interdisciplinary adventures have led to
+          <u>one paper</u> in preparation, several conference presentations, and a College Student Research Scholarship
+          (see the <a href="#research"><i>Research</i></a> section).
+        </p>
+      </div>
 
-      <div class="social-links" style="margin-top:40px;">
-        <a href="https://github.com/EdChang716" target="_blank">
-          <img src="Git-icon.png" alt="GitHub" style="width:80px; height:auto;">
+      <!-- 底部社群（可選） -->
+      <div class="hero-actions">
+        <!-- GitHub -->
+        <a class="icon" href="https://github.com/EdChang716" target="_blank" rel="noopener" aria-label="GitHub">
+          <img src="Git-icon.png" alt="">
         </a>
-        <p><br><br><br><br><br></p>
+        <!-- LinkedIn（用 SVG，或換成你的 png） -->
+        <a class="icon" href="https://www.linkedin.com/in/edwardchang716/" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <img src="linkedin_icon.jpeg" alt="">
+        </a>
       </div>
     </section>
 
+
     <!-- Research -->
     <section id="research">
-      <h1>Research Experience</h1>
+      <h1><strrong>Research Experience</strrong></h1>
       <div class="separator"></div>
 
       <p><br>
@@ -621,7 +864,7 @@
 </script>
 <!-- Chat launcher -->
 <button id="chat-launcher" aria-haspopup="dialog" aria-controls="chat-dialog" title="Chat with my personal chatbot EDDi">
-  💬
+💬
 </button>
 
 <!-- Chat dialog -->
@@ -635,7 +878,7 @@
     <div id="chat-messages" class="chat-messages" aria-live="polite"></div>
 
     <form id="chat-form">
-      <input id="chat-input" name="q" type="text" placeholder="輸入問題（Enter 送出）" autocomplete="off" required />
+      <input id="chat-input" name="q" type="text" placeholder="Enter your question" autocomplete="off" required />
       <button id="chat-send" type="submit">Send</button>
     </form>
 
@@ -643,16 +886,7 @@
   </div>
 </div>
 
-<!-- Minimal CSS to ensure visibility/toggling works -->
-<style>
-  #chat-dialog{ 
-    display:flex; align-items:flex-end; justify-content:flex-end;
-    position:fixed; inset:0; background:rgba(15,23,42,.35);
-    z-index:1100; padding:16px;
-  }
-  #chat-dialog[hidden]{ display:none !important; }
-  #chat-launcher{ z-index:1100; }
-</style>
+
 
 <!-- Chat controller (wired to your Vercel /api/generate, no citations) -->
 <script>
