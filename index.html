@@ -868,7 +868,7 @@ html{ scrollbar-gutter: stable both-edges; }
 </button>
 
 <!-- Chat dialog -->
-<div id="chat-dialog" role="dialog" aria-modal="true" aria-labelledby="chat-title">
+<div id="chat-dialog" role="dialog" aria-modal="true" aria-labelledby="chat-title" hidden>
   <div class="chat-card">
     <header>
       <h3 id="chat-title">EDDi — Edward’s Assistant</h3>
@@ -937,7 +937,7 @@ html{ scrollbar-gutter: stable both-edges; }
   document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') hide(); });
 
   // 若想一進頁面就開啟，保留下一行；不想就註解掉
-  // show();
+  show();
 
   // ==== NEW: conversation history ====
   // 只保留最近 4 輪 QA（= 8 則訊息）
