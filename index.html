@@ -889,6 +889,7 @@ html{ scrollbar-gutter: stable both-edges; }
 
 
 <!-- Chat controller (wired to your Vercel /api/generate, no citations) -->
+<!-- Chat controller (with conversation history) -->
 <script>
 (function(){
   // ==== element refs ====
@@ -905,14 +906,14 @@ html{ scrollbar-gutter: stable both-edges; }
     return;
   }
 
-  // ==== small helpers ====
+  // ==== UI helpers ====
   function addMsg(text, who='bot'){
     const d = document.createElement('div');
     d.className = `msg ${who}`;
     d.innerHTML = (text || '').replace(/\n/g,'<br/>');
     box.appendChild(d);
     box.scrollTop = box.scrollHeight;
-    return d; // 回傳節點以便之後覆寫
+    return d; // 回傳節點（之後覆寫「Thinking…」用）
   }
   function setDisabled(disabled){
     if (sendBtn) sendBtn.disabled = !!disabled;
@@ -924,7 +925,7 @@ html{ scrollbar-gutter: stable both-edges; }
   function show(){
     dialog.removeAttribute('hidden');
     if(!greeted){
-      addMsg('Hi! I’m EDDi, Edward’s assistant. Ask me about his background, experiences, projects, or resume.'); 
+      addMsg('Hi! I’m EDDi, Edward’s assistant. Ask me about his background, labs, projects, or resume.');
       greeted = true;
     }
     setTimeout(()=>input.focus(),0);
@@ -935,20 +936,31 @@ html{ scrollbar-gutter: stable both-edges; }
   closeBtn.addEventListener('click', hide);
   document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') hide(); });
 
-  // 預設一進頁面就打開（如不想預設打開，把下一行註解掉）
-  show();
+  // 若想一進頁面就開啟，保留下一行；不想就註解掉
+  // show();
+
+  // ==== NEW: conversation history ====
+  // 只保留最近 4 輪 QA（= 8 則訊息）
+  const history = [];
+  const MAX_TURNS = 4; // 你可以調大或調小
+
+  function pushHistory(role, content){
+    history.push({ role, content });
+    const MAX_MESSAGES = MAX_TURNS * 2;
+    if (history.length > MAX_MESSAGES){
+      history.splice(0, history.length - MAX_MESSAGES);
+    }
+  }
 
   // ==== API ====
-  // 換成你的後端網域（已設定 CORS）
   const API_BASE = "https://rag-backend-for-personal-page.vercel.app";
 
   async function askRAG(query){
     const r = await fetch(`${API_BASE}/api/generate`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ query, k: 12 }) // 不傳 contexts，後端會自動檢索
+      body: JSON.stringify({ query, history }) // <-- 把最近對話一起送給後端
     });
-    // 嘗試解析 JSON；非 2xx 也丟錯
     let data = null;
     try { data = await r.json(); } catch(e) {}
     if(!r.ok) throw new Error((data && data.error) || `HTTP ${r.status}`);
@@ -962,7 +974,8 @@ html{ scrollbar-gutter: stable both-edges; }
     if(!q) return;
 
     addMsg(q, 'user');
-    input.value = '';
+    input.value='';
+    pushHistory('user', q);  // 記錄使用者這句
 
     setDisabled(true);
     const thinking = addMsg('Thinking…', 'bot');
@@ -970,6 +983,7 @@ html{ scrollbar-gutter: stable both-edges; }
     try{
       const answer = await askRAG(q);
       thinking.innerHTML = (answer || 'Sorry, I couldn’t find that.').replace(/\n/g,'<br/>');
+      pushHistory('assistant', answer); // 記錄機器人的回答
     }catch(err){
       thinking.textContent = 'Backend error. Please try again.';
       console.error('[chat]', err);
@@ -979,32 +993,6 @@ html{ scrollbar-gutter: stable both-edges; }
     }
   });
 })();
-
-// 放在 <script> 中（簡化版）
-const history = []; // [{role:'user'|'assistant', content:'...'}]
-
-async function askRAG(query){
-  const r = await fetch(`${API_BASE}/api/generate`, {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({
-      query,
-      k: 12,
-      history: history.slice(-8) // 只帶最近 8 則，控 token
-    })
-  });
-  const data = await r.json();
-  return data.text;
-}
-
-form.addEventListener('submit', async (e)=>{
-  // ...略
-  const answer = await askRAG(q);
-  history.push({ role:'user', content:q });
-  history.push({ role:'assistant', content:answer });
-  // ...略
-});
-
 </script>
 </body>
 </html>
